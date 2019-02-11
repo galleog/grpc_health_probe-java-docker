@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
 RUN apk add --no-cache curl
-RUN cd /usr/bin && \
-    curl -L https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.2.1/grpc_health_probe-linux-amd64 -o grpc_health_probe && \
-    chmod u+x grpc_health_probe
+ARG GRPC_HEALTH_PROBE_VERSION=v0.2.1
+RUN curl -L https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/$GRPC_HEALTH_PROBE_VERSION/grpc_health_probe-linux-amd64 -o /bin/grpc_health_probe && \
+    chmod +x /bin/grpc_health_probe
