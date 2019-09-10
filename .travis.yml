@@ -10,7 +10,7 @@ env:
     - GRPC_HEALTH_PROBE=galleog/grpc_health_probe
 
 script:
-  - docker build -t $GRPC_HEALTH_PROBE:$COMMIT
+  - docker build -t $GRPC_HEALTH_PROBE:$COMMIT ./
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
