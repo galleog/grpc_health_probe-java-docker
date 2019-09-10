@@ -5,7 +5,7 @@ services:
 
 env:
   global:
-    - secure: Zqso5jholfBwSXE51mC2szmhg0z61UfV9QwTwJzMo+fFrRlxnAokeP0tLjSW7WTYLHVHXcs4pNLrgk3UrZgVnoki4sJ7qgqJA3n1zqFwT9VVF4SStKT2xeLMHvAtJmXpV3Ne3dLp1TGWRaz9p3/uS6dSnslWL7EgRgZ7KLl12EOP2hteVVuMPMJTajt3Ax1TxS0jayYXICqUdLVciDdHGlN3rp4RL3zKBOsEroQEQI0cwNRW/nXdYQJUzOEdjgtBUQ9ByB1GB/j8v21h8QjfV2l/iBGcA2QarJkU9DbXWXCwND7YDJkyqLH19nt/WoHkci+u2EVwcrtXp11gZi2UySZUJrigWt7Rd/tCPbQbXCQ5hL+lUo8StydyZkwSE6brexCpghGU9lp7cPEb8yrHUbUvZJ6e/RIq6PZoUxZX9au1m0wL4pvoWVZyRn/D1RsjeTW4aITpg4EjudV6E+LxWc532L1JtSohZcrW4VWqIkj/pDeDF+WgHePvTkpn8Acv9HTCBuUZP0PkQO4aQuIKM7vwnhRzyemkHD1JUb2n9QDFLcSppYrMrkMdunUR80KabNxvhC0x0Go2LXOeiVlsi+5HfrYbGQgoKr3li0V9pv2oCeoFPHozqfIX+7VopGoKHljL9ccto7bTLXc8vCSvezaxaCQbDry3S3FS/0kLeog=
+    - secure: 'LbgwsseJt2PsFdihlL9ih1d+yVPLJfKCZGdobGinSPqiFPa48wwlbCBy7SLmOPiiPna7txZB2blK2TRMHXex7/fBsv0jtGjea203bahkPab8b0AM4MrlyiAmDgyhAHovyE5DcoFSElMKuqO6+ue2gmlMid68l6HNcOjt+O8Nt5huvRShEDIaxx6HSqFAOM4B/t9jchl5w1PlcLL3vAy50fiGbRoYEHAReWFhWZZWrJbv94sDVsLnshkmoT1Y8DmhttsgFx8kE45TBE0/WrrRRARNvJfVjnkLXLbkURpaOihXDKjqwExteUjhPgSLCQaMh6B6HzECLI28XGtRST45C9iBpSItTeZdmVucpf4WTEvpkikPdOa7RCtHUjgl5ZOyRitSE+HOQB/GwKF8dtJR4iwlTXsbKaTbBpfCm88mA+ADZVAdFVHh/AOZl4RvYs+whmGrXCQwe3TdMsNDdU/33+ezlPthutVnQVN+xlCbK+93K4jPQWRT4ngZK2V7rdUOxYWPZ6Nei7Bdh5ImPHv2Afz5l25qhrwGYT7PczGBBc8x233WubImJ/zLod5kEN/L7pfLt+CPTBaZZAuginhHVOD3uh3YjvO/ZfX3e38vm+sKnUrSeSrPJ5C+a3V5QY1F4rT5/cbHaioLJN3QgOY+ox5ydGYtVHa8mqWYDbh6n2U='
     - COMMIT=${TRAVIS_COMMIT::7}
     - GRPC_HEALTH_PROBE=galleog/grpc-health-probe
 
@@ -13,7 +13,7 @@ script:
   - docker build -t $GRPC_HEALTH_PROBE:$COMMIT ./
 
 after_success:
-  - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
   - export TAG=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi)
   - docker tag $GRPC_HEALTH_PROBE:$COMMIT $GRPC_HEALTH_PROBE:$TAG
   - docker push $GRPC_HEALTH_PROBE
