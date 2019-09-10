@@ -15,5 +15,5 @@ script:
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export TAG=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi)
-  - docker tag $GRPC_HEALTH_PROBE:$COMMIT $FRONTEND:$TAG
+  - docker tag $GRPC_HEALTH_PROBE:$COMMIT $GRPC_HEALTH_PROBE:$TAG
   - docker push $GRPC_HEALTH_PROBE
