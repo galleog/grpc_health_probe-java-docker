@@ -5,7 +5,7 @@ services:
 
 env:
   global:
-    - secure: 'LbgwsseJt2PsFdihlL9ih1d+yVPLJfKCZGdobGinSPqiFPa48wwlbCBy7SLmOPiiPna7txZB2blK2TRMHXex7/fBsv0jtGjea203bahkPab8b0AM4MrlyiAmDgyhAHovyE5DcoFSElMKuqO6+ue2gmlMid68l6HNcOjt+O8Nt5huvRShEDIaxx6HSqFAOM4B/t9jchl5w1PlcLL3vAy50fiGbRoYEHAReWFhWZZWrJbv94sDVsLnshkmoT1Y8DmhttsgFx8kE45TBE0/WrrRRARNvJfVjnkLXLbkURpaOihXDKjqwExteUjhPgSLCQaMh6B6HzECLI28XGtRST45C9iBpSItTeZdmVucpf4WTEvpkikPdOa7RCtHUjgl5ZOyRitSE+HOQB/GwKF8dtJR4iwlTXsbKaTbBpfCm88mA+ADZVAdFVHh/AOZl4RvYs+whmGrXCQwe3TdMsNDdU/33+ezlPthutVnQVN+xlCbK+93K4jPQWRT4ngZK2V7rdUOxYWPZ6Nei7Bdh5ImPHv2Afz5l25qhrwGYT7PczGBBc8x233WubImJ/zLod5kEN/L7pfLt+CPTBaZZAuginhHVOD3uh3YjvO/ZfX3e38vm+sKnUrSeSrPJ5C+a3V5QY1F4rT5/cbHaioLJN3QgOY+ox5ydGYtVHa8mqWYDbh6n2U='
+    - secure: upuFbBvMhs9R67uBB2B8W5Syrt6qvOsrG9PE8CvRYtL3kRBA5Nm5MXRx3oiRXcOhHn3tb8/SN5k9xHbUhxhxC7rgH9XTqtYS5H087fIrX0L75hIbo302BwYaHJFyQvaBxrR6Ua1hXFf/SaS/u0UII1TyIPFduu9h44Fdrk/4xyc+8eY6OdAbnpYOTdCY0ZD5py9O+830MEFqbyRV6vaU2iNcaqEIstz9a7pZGCm6nVpk9Ze8CvpFjzWCS09Ei27rT+1nlRQa8kAhPIm1hmlw2765mM53BKjoqHIngf2pp/P3Qu57O+T8JUXSWnKuHGVJy1NnE+dx2BhJmODsvUL4XSnnzUMjcLw8LK3cbMjG3VI6VxSlviHXQdY0As5pxbzU+Kst4lpS2Y+dRkrvKE387h8FR3XfyXd92t46uscf+5l6OarEYPaoDHDhDEh4mQSJln3MbmigSq+AH//Yo4HQ15CWv5PDYBO+77nydxIfztGO2nDaLsY48hhhuVP6jsPoNHqmBZO1Rx66OYU6hyzWEDQec6NscPjfMFt/j3Mvp9wEdpuPsDwrh8DD+EBj/U4mh+7QinA7PTNXBBImNPXMs33gly3FOSRatWmwSt2DLRFes6fhvLTsoZjjdFL4TcKTXJTNqs24rEC/563LtJUvYeL3pfg/dwWMxlElB0RLYn8=
     - COMMIT=${TRAVIS_COMMIT::7}
     - GRPC_HEALTH_PROBE=galleog/grpc-health-probe
 
@@ -13,7 +13,7 @@ script:
   - docker build -t $GRPC_HEALTH_PROBE:$COMMIT ./
 
 after_success:
-  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
   - export TAG=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi)
   - docker tag $GRPC_HEALTH_PROBE:$COMMIT $GRPC_HEALTH_PROBE:$TAG
   - docker push $GRPC_HEALTH_PROBE
