@@ -1,0 +1,19 @@
+language: bash
+
+services:
+  - docker
+
+env:
+  global:
+    - secure: "EMXKlzoCIrchStI5zL35q2AY5wAUyWLnSNQhRCyKnKDcdDwRYbZ+60SUiyLaLM/9mQuChZvFvJZObKQ2LrUh/KBISeGym4brYQnSHMk3W1lLmbmwwLPNpBMhvKojw3Hi+WaZXPZw969oHZWv9TX1UYOlfMnLEXYMePsN9NLmZXxb47+5Q+1qgMk+ojGnObYXm5DSus/5QYlWqWvS1iuHDFG3D1/2PuksMFbTyz+qdJcwCDdHR3nIIiVFJQplnB7tc6aVZmZX4wBawlx1AlEiGLziViNh6jNlCurN7WmP0w3yoP8j0z45xh3BLxhVQhrnmkTs/k1JjLsGpY+14k5/xzCKjmJkC4kVrezTvdLAY+xpaRLARcW3Kze1z6L0x3UdSMNqWNDNxGVN1OQ+LVWPXr4tWYN4EeTQg5PdoU/Pvg1yqlraWfJsf1KtvBAsxudndn51T5W3XC2UdfY+U36edQ/UHgxkED6ryHE9JmghdT9+aeisRkjfD3NADHFB4dqossnysF4ka8MMAp5B0kYk6xQty0UcIgZjTGsK3lbGefmvVKPrDBleJ2Yd4Bho6vJSVh6iqB+Jqt+zBLMtf+eFUG+ZisaFDX3k6LRF7LwSC8lJjfWpzvjZ3d2/g6EEbCTIxkVsncUOp1VFWiCYJPyESmabS5TwDzmCjlDvY1FNlHA="
+    - COMMIT=${TRAVIS_COMMIT::7}
+    - GRPC_HEALTH_PROBE=galleog/grpc_health_probe
+
+script:
+  - docker build -t $GRPC_HEALTH_PROBE:$COMMIT
+
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export TAG=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi)
+  - docker tag $GRPC_HEALTH_PROBE:$COMMIT $FRONTEND:$TAG
+  - docker push $GRPC_HEALTH_PROBE
