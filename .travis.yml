@@ -5,14 +5,12 @@ services:
 
 env:
   global:
-    - COMMIT=${TRAVIS_COMMIT::7}
     - GRPC_HEALTH_PROBE=galleog/grpc-health-probe
 
 script:
-  - docker build -t $GRPC_HEALTH_PROBE:$COMMIT ./
+  - docker build -t $GRPC_HEALTH_PROBE:alpine ./alpine
+  - docker build -t $GRPC_HEALTH_PROBE:slim ./slim
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-  - export TAG=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi)
-  - docker tag $GRPC_HEALTH_PROBE:$COMMIT $GRPC_HEALTH_PROBE:$TAG
   - docker push $GRPC_HEALTH_PROBE
